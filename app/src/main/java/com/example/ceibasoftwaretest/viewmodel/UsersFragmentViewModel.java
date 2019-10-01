@@ -3,7 +3,7 @@ package com.example.ceibasoftwaretest.viewmodel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.ceibasoftwaretest.database.data.Users;
+import com.example.ceibasoftwaretest.database.data.User.Users;
 import com.example.ceibasoftwaretest.repositories.UsersRepository;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.ceibasoftwaretest.database.data;
+package com.example.ceibasoftwaretest.database.data.User;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -15,6 +15,6 @@ public interface UsersDao {
     LiveData<List<Users>> loadAllUsers();
 
     @Insert
-    void insertAll(Users[] users);
+    void insertAll(Users... users);
 
 }

@@ -1,29 +1,34 @@
 package com.example.ceibasoftwaretest.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ceibasoftwaretest.R;
-import com.example.ceibasoftwaretest.database.data.Users;
+import com.example.ceibasoftwaretest.database.data.User.Users;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class UsersAdapter  extends RecyclerView.Adapter<UsersAdapter.UsersViewHolder>{
+public class UsersAdapter  extends RecyclerView.Adapter<UsersAdapter.UsersViewHolder> implements Filterable, View.OnClickListener {
 
-    private List<Users> mUSersList;
-
-    public UsersAdapter(List<Users> mUSersList) {
-        this.mUSersList = mUSersList;
-    }
+    private List<Users> mUsersList = new ArrayList<>();
+    private List<Users> mUsersListFull = new ArrayList<>();
+    private Context mContext;
 
     @NonNull
     @Override
     public UsersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        mContext = parent.getContext();
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.user_list_item,parent, false);
         return new UsersViewHolder(view);
@@ -31,7 +36,7 @@ public class UsersAdapter  extends RecyclerView.Adapter<UsersAdapter.UsersViewHo
 
     @Override
     public void onBindViewHolder(@NonNull UsersViewHolder holder, int position) {
-        Users users = mUSersList.get(position);
+        Users users = mUsersList.get(position);
         if (users != null)
             holder.mUserName.setText(users.getName());
             holder.mUserEmail.setText(users.getEmail());
@@ -40,24 +45,74 @@ public class UsersAdapter  extends RecyclerView.Adapter<UsersAdapter.UsersViewHo
 
     @Override
     public int getItemCount() {
-        return mUSersList.size();
+        return mUsersList.size();
     }
 
     public void addUsersList(List<Users> users){
-        mUSersList = users;
+        this.mUsersList = users;
+        this.mUsersListFull = new ArrayList<>(mUsersList);
         notifyDataSetChanged();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    private Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constrain) {
+            List<Users> filteredList = new ArrayList<>();
+
+            if (constrain == null || constrain.length() == 0){
+                filteredList.addAll(mUsersListFull);
+            }else{
+                String filterPattern = constrain.toString().toLowerCase().trim();
+
+                for (Users users: mUsersListFull){
+                    if (users.getName().toLowerCase().contains(filterPattern)){
+                        filteredList.add(users);
+                    }else{
+                        Toast.makeText(mContext, R.string.list_empty, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            mUsersList.clear();
+            mUsersList.addAll((List)filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
+
+    @Override
+    public void onClick(View view) {
+        
     }
 
     public static class UsersViewHolder extends RecyclerView.ViewHolder {
         TextView mUserName;
         TextView mUserCellPhone;
         TextView mUserEmail;
+        Button mShowPost;
 
         public UsersViewHolder(@NonNull View itemView) {
             super(itemView);
             mUserName = itemView.findViewById(R.id.nameTextView);
             mUserCellPhone = itemView.findViewById(R.id.cellPhoneTextView);
             mUserEmail = itemView.findViewById(R.id.emailTextView);
+            mShowPost = itemView.findViewById(R.id.showPost);
+
+            mShowPost.setOnClickListener(v ->{
+                Toast.makeText(itemView.getContext(), "HIIHHHIHIHH", Toast.LENGTH_SHORT).show();
+            });
         }
     }
 }

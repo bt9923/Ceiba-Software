@@ -1,10 +1,11 @@
-package com.example.ceibasoftwaretest.ui;
+package com.example.ceibasoftwaretest.ui.UsersList;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
 import com.example.ceibasoftwaretest.R;
+import com.example.ceibasoftwaretest.ui.UsersList.UsersFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,8 +18,9 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.main_content, new UsersFragment())
-                    .addToBackStack("USERGRAGMENT")
+                    .addToBackStack("USERFRAGMENT")
                     .commit();
         }
     }
+
 }

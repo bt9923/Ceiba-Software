@@ -1,4 +1,4 @@
-package com.example.ceibasoftwaretest.database.data;
+package com.example.ceibasoftwaretest.database.data.User;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -20,6 +20,9 @@ public class Users {
 
     @ColumnInfo(name = "email")
     private String email;
+
+    public Users() {
+    }
 
     public Users(int id, String name, String phone, String email) {
         this.id = id;
