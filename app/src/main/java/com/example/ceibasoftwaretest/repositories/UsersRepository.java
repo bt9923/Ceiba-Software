@@ -46,11 +46,5 @@ public class UsersRepository {
             usersDao.insertAll(users[0]);
             return null;
         }
-
-        @Override
-        protected void onPostExecute(Context context) {
-            super.onPostExecute(context);
-            Toast.makeText(context, "COMPLETED", Toast.LENGTH_LONG).show();
-        }
     }
 }

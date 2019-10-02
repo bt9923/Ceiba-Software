@@ -1,6 +1,7 @@
-package com.example.ceibasoftwaretest.adapter;
+package com.example.ceibasoftwaretest.adapter.user;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ceibasoftwaretest.R;
 import com.example.ceibasoftwaretest.database.data.User.Users;
+import com.example.ceibasoftwaretest.ui.Post.PostActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsersAdapter  extends RecyclerView.Adapter<UsersAdapter.UsersViewHolder> implements Filterable, View.OnClickListener {
+public class UsersAdapter  extends RecyclerView.Adapter<UsersAdapter.UsersViewHolder> implements Filterable {
 
     private List<Users> mUsersList = new ArrayList<>();
     private List<Users> mUsersListFull = new ArrayList<>();
@@ -41,6 +43,16 @@ public class UsersAdapter  extends RecyclerView.Adapter<UsersAdapter.UsersViewHo
             holder.mUserName.setText(users.getName());
             holder.mUserEmail.setText(users.getEmail());
             holder.mUserCellPhone.setText(users.getPhone());
+
+
+            holder.mShowPost.setOnClickListener(v ->{
+                Intent intent = new Intent(mContext, PostActivity.class);
+                intent.putExtra("idUser", users.getId());
+                intent.putExtra("nameUser", users.getName());
+                intent.putExtra("phoneUser", users.getPhone());
+                intent.putExtra("emailUser", users.getEmail());
+                mContext.startActivity(intent);
+            });
     }
 
     @Override
@@ -92,10 +104,6 @@ public class UsersAdapter  extends RecyclerView.Adapter<UsersAdapter.UsersViewHo
         }
     };
 
-    @Override
-    public void onClick(View view) {
-        
-    }
 
     public static class UsersViewHolder extends RecyclerView.ViewHolder {
         TextView mUserName;
@@ -109,10 +117,6 @@ public class UsersAdapter  extends RecyclerView.Adapter<UsersAdapter.UsersViewHo
             mUserCellPhone = itemView.findViewById(R.id.cellPhoneTextView);
             mUserEmail = itemView.findViewById(R.id.emailTextView);
             mShowPost = itemView.findViewById(R.id.showPost);
-
-            mShowPost.setOnClickListener(v ->{
-                Toast.makeText(itemView.getContext(), "HIIHHHIHIHH", Toast.LENGTH_SHORT).show();
-            });
         }
     }
 }

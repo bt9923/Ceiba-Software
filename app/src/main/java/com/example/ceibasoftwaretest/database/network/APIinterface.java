@@ -15,5 +15,5 @@ public interface APIinterface {
     Call<List<Users>> getUsers();
 
     @GET("posts")
-    Call<List<Post>> getPostById(@Query("userId") String userId);
+    Call<List<Post>> getPostById(@Query("userId") Integer userId);
 }

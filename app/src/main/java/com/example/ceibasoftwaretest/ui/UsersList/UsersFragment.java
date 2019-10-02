@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 
 import com.example.ceibasoftwaretest.R;
-import com.example.ceibasoftwaretest.adapter.UsersAdapter;
+import com.example.ceibasoftwaretest.adapter.user.UsersAdapter;
 import com.example.ceibasoftwaretest.ui.ViewDialog;
 import com.example.ceibasoftwaretest.viewmodel.UsersFragmentViewModel;
 
@@ -70,9 +70,6 @@ public class UsersFragment extends Fragment {
 
         mUsersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mUsersRecyclerView.setHasFixedSize(true);
-
-        mUsersAdapters = new UsersAdapter();
-//        mUsersRecyclerView.setAdapter(mUsersAdapters);
 
         mUsersAdapters = new UsersAdapter();
         mUsersRecyclerView.setAdapter(mUsersAdapters);

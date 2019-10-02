@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Ceiba Software Test</string>
+    <string name="app_name" translatable="false">Ceiba Software Test</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="list_empty">List is empty</string>
     <string name="show_post">Show post</string>
+    <string name="post_list">List of posts</string>
 </resources>

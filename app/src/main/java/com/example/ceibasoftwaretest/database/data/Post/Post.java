@@ -10,21 +10,26 @@ public class Post {
     @PrimaryKey
     private int id;
 
-    @ColumnInfo(name = "titlePost")
-    private String titlePost;
+    @ColumnInfo
+    private int userId;
 
-    @ColumnInfo(name = "descriptionPost")
-    private String descriptionPost;
+    @ColumnInfo
+    private String title;
+
+    @ColumnInfo
+    private String body;
 
 
     public Post() {
     }
 
-    public Post(int id, String titlePost, String descriptionPost) {
+    public Post(int id, int userId, String title, String body) {
         this.id = id;
-        this.titlePost = titlePost;
-        this.descriptionPost = descriptionPost;
+        this.userId = userId;
+        this.title = title;
+        this.body = body;
     }
+
 
     public int getId() {
         return id;
@@ -34,19 +39,27 @@ public class Post {
         this.id = id;
     }
 
-    public String getTitlePost() {
-        return titlePost;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setTitlePost(String titlePost) {
-        this.titlePost = titlePost;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getDescriptionPost() {
-        return descriptionPost;
+    public String getTitle() {
+        return title;
     }
 
-    public void setDescriptionPost(String descriptionPost) {
-        this.descriptionPost = descriptionPost;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 }

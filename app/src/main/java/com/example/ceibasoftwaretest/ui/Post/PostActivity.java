@@ -1,35 +1,81 @@
 package com.example.ceibasoftwaretest.ui.Post;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ceibasoftwaretest.R;
+import com.example.ceibasoftwaretest.adapter.post.PostAdapter;
+import com.example.ceibasoftwaretest.database.AppDatabase;
 import com.example.ceibasoftwaretest.database.data.Post.Post;
+import com.example.ceibasoftwaretest.database.data.Post.PostDao;
 import com.example.ceibasoftwaretest.database.data.User.Users;
 import com.example.ceibasoftwaretest.database.network.ApiClient;
 import com.example.ceibasoftwaretest.ui.UsersList.UsersFragment;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Response;
 
 public class PostActivity extends AppCompatActivity {
 
+    //<editor-fold desc="ButterKnife">
+
+    PostAdapter postAdapter;
+    Bundle extras;
+
+    //</editor-fold>
+
+    //<editor-fold desc="ButterKnife">
+
+    @BindView(R.id.nameTextView)
+    TextView mNameTextView;
+
+    @BindView(R.id.cellPhoneTextView)
+    TextView mPhoneTextView;
+
+    @BindView(R.id.emailTextView)
+    TextView mEmailTextView;
+
+    @BindView(R.id.postRecyclerView)
+    RecyclerView mPostRecyclerView;
+
+    //</editor-fold>
+
+
+    //<editor-fold desc="LifeCycle">
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+        ButterKnife.bind(this);
 
-        Call<List<Post>> call = ApiClient.apiInterface().getPostById("1");
+        initView();
+
+        assert extras != null;
+        Call<List<Post>> call = ApiClient.apiInterface().getPostById(extras.getInt("idUser"));
         call.enqueue(new retrofit2.Callback<List<Post>>() {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
 
                 if (response.isSuccessful()){
+                    Post post = new Post();
+                    assert response.body() != null;
+                    for (int i = 0; i < response.body().size(); i++){
+                        post.setId(response.body().get(i).getId());
+                        post.setUserId(response.body().get(i).getUserId());
+                        post.setTitle(response.body().get(i).getTitle());
+                        post.setBody(response.body().get(i).getBody());
 
+                    }
                 }else{
                     Toast.makeText(getApplicationContext(), "An error occurred " + response.code(), Toast.LENGTH_LONG).show();
                     UsersFragment.hideCustomLoadingDialog();
@@ -44,5 +90,20 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
+        postAdapter = new PostAdapter();
+        mPostRecyclerView.setAdapter(postAdapter);
     }
+
+    private void initView() {
+
+        extras = getIntent().getExtras();
+
+        if (extras != null)
+            mNameTextView.setText(extras.getString("nameUser"));
+            mPhoneTextView.setText(extras.getString("phoneUser"));
+            mEmailTextView.setText(extras.getString("emailUser"));
+    }
+
+    //</editor-fold>
+
 }
