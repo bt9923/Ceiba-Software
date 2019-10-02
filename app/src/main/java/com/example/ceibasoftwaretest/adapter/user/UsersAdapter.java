@@ -2,6 +2,7 @@ package com.example.ceibasoftwaretest.adapter.user;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ import com.example.ceibasoftwaretest.ui.Post.PostActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsersAdapter  extends RecyclerView.Adapter<UsersAdapter.UsersViewHolder> implements Filterable {
+public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHolder> implements Filterable {
 
     private List<Users> mUsersList = new ArrayList<>();
     private List<Users> mUsersListFull = new ArrayList<>();
@@ -43,7 +44,6 @@ public class UsersAdapter  extends RecyclerView.Adapter<UsersAdapter.UsersViewHo
             holder.mUserName.setText(users.getName());
             holder.mUserEmail.setText(users.getEmail());
             holder.mUserCellPhone.setText(users.getPhone());
-
 
             holder.mShowPost.setOnClickListener(v ->{
                 Intent intent = new Intent(mContext, PostActivity.class);
@@ -85,7 +85,7 @@ public class UsersAdapter  extends RecyclerView.Adapter<UsersAdapter.UsersViewHo
                     if (users.getName().toLowerCase().contains(filterPattern)){
                         filteredList.add(users);
                     }else{
-                        Toast.makeText(mContext, R.string.list_empty, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(mContext, R.string.list_empty, Toast.LENGTH_SHORT).show();
                     }
                 }
             }

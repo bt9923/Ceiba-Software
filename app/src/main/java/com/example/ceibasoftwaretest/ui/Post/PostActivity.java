@@ -1,6 +1,7 @@
 package com.example.ceibasoftwaretest.ui.Post;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -67,15 +68,10 @@ public class PostActivity extends AppCompatActivity {
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
 
                 if (response.isSuccessful()){
-                    Post post = new Post();
-                    assert response.body() != null;
-                    for (int i = 0; i < response.body().size(); i++){
-                        post.setId(response.body().get(i).getId());
-                        post.setUserId(response.body().get(i).getUserId());
-                        post.setTitle(response.body().get(i).getTitle());
-                        post.setBody(response.body().get(i).getBody());
+                    List<Post> post = response.body();
 
-                    }
+                    postAdapter = new PostAdapter(getApplicationContext(), post);
+                    mPostRecyclerView.setAdapter(postAdapter);
                 }else{
                     Toast.makeText(getApplicationContext(), "An error occurred " + response.code(), Toast.LENGTH_LONG).show();
                     UsersFragment.hideCustomLoadingDialog();
@@ -89,9 +85,6 @@ public class PostActivity extends AppCompatActivity {
                 UsersFragment.hideCustomLoadingDialog();
             }
         });
-
-        postAdapter = new PostAdapter();
-        mPostRecyclerView.setAdapter(postAdapter);
     }
 
     private void initView() {
@@ -102,6 +95,9 @@ public class PostActivity extends AppCompatActivity {
             mNameTextView.setText(extras.getString("nameUser"));
             mPhoneTextView.setText(extras.getString("phoneUser"));
             mEmailTextView.setText(extras.getString("emailUser"));
+
+
+        mPostRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
     }
 
     //</editor-fold>

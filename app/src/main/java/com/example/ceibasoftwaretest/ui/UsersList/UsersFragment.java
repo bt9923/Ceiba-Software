@@ -46,7 +46,6 @@ public class UsersFragment extends Fragment {
 
     //<editor-fold desc="LifeCycle">
 
-
     public UsersFragment() {
         //Required empty public constructor
     }
@@ -63,8 +62,6 @@ public class UsersFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_users, container, false);
         ButterKnife.bind(this, view);
-
-
 
         viewDialog = new ViewDialog(getActivity());
 
@@ -101,7 +98,6 @@ public class UsersFragment extends Fragment {
         viewDialog.hideDialog();
 
     }
-
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

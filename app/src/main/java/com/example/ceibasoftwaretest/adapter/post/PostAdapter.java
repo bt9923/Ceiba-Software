@@ -1,5 +1,6 @@
 package com.example.ceibasoftwaretest.adapter.post;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,13 @@ import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder>{
 
-    private List<Post> mPostsList = new ArrayList<>();
+    private Context mContext;
+    private List<Post> mPostsList;
+
+    public PostAdapter(Context mContext, List<Post> mPostsList) {
+        this.mContext = mContext;
+        this.mPostsList = mPostsList;
+    }
 
     @NonNull
     @Override
@@ -29,10 +36,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = mPostsList.get(position);
-        if (post != null){
-            holder.mTvTitlePost.setText(post.getTitle());
-            holder.mTvDescriptionPost.setText(post.getBody());
-        }
+        holder.mTvTitlePost.setText(post.getTitle());
+        holder.mTvDescriptionPost.setText(post.getBody());
     }
 
     @Override

@@ -5,4 +5,5 @@
     <string name="list_empty">List is empty</string>
     <string name="show_post">Show post</string>
     <string name="post_list">List of posts</string>
+    <string name="search">Search</string>
 </resources>

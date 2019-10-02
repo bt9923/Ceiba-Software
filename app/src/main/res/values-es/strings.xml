@@ -3,4 +3,5 @@
     <string name="list_empty">Lista vacía</string>
     <string name="show_post">Mostrar publicaciones</string>
     <string name="post_list">Lista de publicaciones</string>
+    <string name="search">Buscar</string>
 </resources>
