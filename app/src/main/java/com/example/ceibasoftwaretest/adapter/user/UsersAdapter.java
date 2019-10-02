@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ceibasoftwaretest.R;
 import com.example.ceibasoftwaretest.database.data.User.Users;
 import com.example.ceibasoftwaretest.ui.Post.PostActivity;
+import com.example.ceibasoftwaretest.ui.UsersList.UsersFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,9 +62,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
     }
 
     public void addUsersList(List<Users> users){
+        notifyDataSetChanged();
         this.mUsersList = users;
         this.mUsersListFull = new ArrayList<>(mUsersList);
-        notifyDataSetChanged();
     }
 
     @Override
@@ -84,8 +85,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
                 for (Users users: mUsersListFull){
                     if (users.getName().toLowerCase().contains(filterPattern)){
                         filteredList.add(users);
-                    }else{
-//                        Toast.makeText(mContext, R.string.list_empty, Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -101,6 +100,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
             mUsersList.clear();
             mUsersList.addAll((List)filterResults.values);
             notifyDataSetChanged();
+
+            if(mUsersList.size() == 0) {
+                Toast.makeText(mContext, "Not Found", Toast.LENGTH_LONG).show();
+            }
         }
     };
 

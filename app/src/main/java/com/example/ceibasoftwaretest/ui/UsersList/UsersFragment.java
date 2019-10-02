@@ -42,7 +42,7 @@ public class UsersFragment extends Fragment {
     //<editor-fold desc="ButterKnife">
 
     @BindView(R.id.emptyListTextView)
-    TextView mTvEMptyList;
+    TextView mTvEmptyList;
 
     @BindView(R.id.usersRecyclerView)
     RecyclerView mUsersRecyclerView;
@@ -127,6 +127,7 @@ public class UsersFragment extends Fragment {
         });
         super.onCreateOptionsMenu(menu, inflater);
     }
+
 
     //</editor-fold>
 }

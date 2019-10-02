@@ -1,11 +1,18 @@
 package com.example.ceibasoftwaretest.ui.Post;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +38,7 @@ public class PostActivity extends AppCompatActivity {
 
     PostAdapter postAdapter;
     Bundle extras;
+    LoaderSearchPosts loaderSearchInsurances = new LoaderSearchPosts();
 
     //</editor-fold>
 
@@ -48,6 +56,9 @@ public class PostActivity extends AppCompatActivity {
     @BindView(R.id.postRecyclerView)
     RecyclerView mPostRecyclerView;
 
+    @BindView(R.id.unloadLayout)
+    LinearLayout mUnloadLayout;
+
     //</editor-fold>
 
 
@@ -60,34 +71,13 @@ public class PostActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         initView();
-
-        assert extras != null;
-        Call<List<Post>> call = ApiClient.apiInterface().getPostById(extras.getInt("idUser"));
-        call.enqueue(new retrofit2.Callback<List<Post>>() {
-            @Override
-            public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-
-                if (response.isSuccessful()){
-                    List<Post> post = response.body();
-
-                    postAdapter = new PostAdapter(getApplicationContext(), post);
-                    mPostRecyclerView.setAdapter(postAdapter);
-                }else{
-                    Toast.makeText(getApplicationContext(), "An error occurred " + response.code(), Toast.LENGTH_LONG).show();
-                    UsersFragment.hideCustomLoadingDialog();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Post>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "An error occurred " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                UsersFragment.hideCustomLoadingDialog();
-            }
-        });
     }
 
     private void initView() {
+
+        mUnloadLayout.setVisibility(View.VISIBLE);
+        loaderSearchInsurances = new LoaderSearchPosts();
+        loaderSearchInsurances.execute();
 
         extras = getIntent().getExtras();
 
@@ -96,8 +86,83 @@ public class PostActivity extends AppCompatActivity {
             mPhoneTextView.setText(extras.getString("phoneUser"));
             mEmailTextView.setText(extras.getString("emailUser"));
 
-
+        mPostRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mPostRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+    }
+
+    private class LoaderSearchPosts extends AsyncTask<Void, String ,Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Animation anim = AnimationUtils.loadAnimation(PostActivity.this, R.anim.fadein);
+            anim.setDuration(500);
+            mUnloadLayout.startAnimation(anim);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            assert extras != null;
+            Call<List<Post>> call = ApiClient.apiInterface().getPostById(extras.getInt("idUser"));
+            call.enqueue(new retrofit2.Callback<List<Post>>() {
+                @Override
+                public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+
+                    if (response.isSuccessful()){
+                        List<Post> post = response.body();
+
+                        postAdapter = new PostAdapter(getApplicationContext(), post);
+                    }else{
+                        Toast.makeText(getApplicationContext(), "An error occurred " + response.code(), Toast.LENGTH_LONG).show();
+                        UsersFragment.hideCustomLoadingDialog();
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<List<Post>> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "An error occurred " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    UsersFragment.hideCustomLoadingDialog();
+                }
+            });
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if (aBoolean){
+
+                Animation anim = AnimationUtils.loadAnimation(PostActivity.this, R.anim.fadeout);
+                anim.setDuration(1500);
+                if (mUnloadLayout != null) {
+                    mUnloadLayout.startAnimation(anim);
+                }
+
+                anim.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        mUnloadLayout.setVisibility(View.GONE);
+                        showData();
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+            }
+        }
+
+    }
+
+    private void showData() {
+        mPostRecyclerView.setAdapter(postAdapter);
     }
 
     //</editor-fold>
