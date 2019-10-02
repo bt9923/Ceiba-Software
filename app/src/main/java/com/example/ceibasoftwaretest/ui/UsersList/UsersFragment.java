@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ceibasoftwaretest.R;
 import com.example.ceibasoftwaretest.adapter.user.UsersAdapter;
@@ -38,6 +40,9 @@ public class UsersFragment extends Fragment {
     //</editor-fold>
 
     //<editor-fold desc="ButterKnife">
+
+    @BindView(R.id.emptyListTextView)
+    TextView mTvEMptyList;
 
     @BindView(R.id.usersRecyclerView)
     RecyclerView mUsersRecyclerView;
@@ -91,17 +96,14 @@ public class UsersFragment extends Fragment {
     public static void showCustomLoadingDialog() {
         //..show gif
         viewDialog.showDialog();
-
     }
 
     public static void hideCustomLoadingDialog() {
         viewDialog.hideDialog();
-
     }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-
         inflater.inflate(R.menu.menu_item, menu);
 
         MenuItem item = menu.findItem(R.id.action_search);
@@ -119,6 +121,7 @@ public class UsersFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 mUsersAdapters.getFilter().filter(newText);
+
                 return false;
             }
         });
