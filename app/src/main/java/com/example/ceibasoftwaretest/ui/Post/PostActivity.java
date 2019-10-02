@@ -34,7 +34,7 @@ import retrofit2.Response;
 
 public class PostActivity extends AppCompatActivity {
 
-    //<editor-fold desc="ButterKnife">
+    //<editor-fold desc="Vars">
 
     PostAdapter postAdapter;
     Bundle extras;
@@ -61,7 +61,6 @@ public class PostActivity extends AppCompatActivity {
 
     //</editor-fold>
 
-
     //<editor-fold desc="LifeCycle">
 
     @Override
@@ -73,6 +72,9 @@ public class PostActivity extends AppCompatActivity {
         initView();
     }
 
+    //</editor-fold>
+
+    //<editor-fold desc="Init Vars">
     private void initView() {
 
         mUnloadLayout.setVisibility(View.VISIBLE);
@@ -89,7 +91,9 @@ public class PostActivity extends AppCompatActivity {
         mPostRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mPostRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
     }
+    //</editor-fold>
 
+    //<editor-fold desc="Async Task">
     private class LoaderSearchPosts extends AsyncTask<Void, String ,Boolean> {
 
         @Override

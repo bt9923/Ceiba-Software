@@ -9,6 +9,7 @@ import com.example.ceibasoftwaretest.ui.UsersList.UsersFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    //<editor-fold desc="LifeCycle">
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,5 +22,6 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
     }
+    //</editor-fold>
 
 }

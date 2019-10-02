@@ -4,4 +4,6 @@
     <string name="show_post">Mostrar publicaciones</string>
     <string name="post_list">Lista de publicaciones</string>
     <string name="search">Buscar</string>
+    <string name="no_results_found">No se encontraron resultados</string>
+    <string name="close">Cerrar</string>
 </resources>

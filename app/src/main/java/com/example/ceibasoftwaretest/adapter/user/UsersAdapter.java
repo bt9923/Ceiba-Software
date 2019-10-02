@@ -1,5 +1,6 @@
 package com.example.ceibasoftwaretest.adapter.user;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -19,6 +20,7 @@ import com.example.ceibasoftwaretest.R;
 import com.example.ceibasoftwaretest.database.data.User.Users;
 import com.example.ceibasoftwaretest.ui.Post.PostActivity;
 import com.example.ceibasoftwaretest.ui.UsersList.UsersFragment;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +104,14 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
             notifyDataSetChanged();
 
             if(mUsersList.size() == 0) {
-                Toast.makeText(mContext, "Not Found", Toast.LENGTH_LONG).show();
+                Snackbar.make( (((Activity) mContext).findViewById(android.R.id.content)), mContext.getString(R.string.no_results_found), Snackbar.LENGTH_LONG)
+                    .setAction(R.string.close, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                        }
+                    })
+                    .setActionTextColor(mContext.getResources().getColor(R.color.colorPrimary))
+                    .show();
             }
         }
     };
